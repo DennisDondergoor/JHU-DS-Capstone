@@ -1,0 +1,48 @@
+---
+title: "Predicting the Next Word"
+author: "Dennis"
+date: "May 20, 2018"
+output:
+  slidy_presentation: default
+---
+
+## Introduction
+
+This presentation is about a Shiny app that takes as input a phrase (one or multiple words) in a text box and outputs a prediction of the next word (in the English language).
+
+Word prediction is part of a field of articial intelligence called **Natural Language Processing** (NLP). See the [Wikipedia on NLP](https://en.wikipedia.org/wiki/Natural-language_processing) for more information on this interesting subject.
+
+### Assignment
+
+This project is an assignment for the [**Data Science Capstone**](https://www.coursera.org/learn/data-science-project) course, which is offered by Johns Hopkins University and Coursera.
+
+### Source code
+
+The source code for this presentation can be found in [this Github repo](https://github.com/DennisDondergoor/JHU-DS-Capstone).
+
+## The Shiny app
+
+The Shiny app can be found [here](https://dennisdondergoor.shinyapps.io/capstone-nlp/).
+
+### How to use the app
+
+1. type a sentence in the text box
+2. click "Submit"
+3. wait a few seconds...
+4. then, a **predicted next word** should appear
+
+## Behind the app
+
+### Data
+
+The data that serves as the text corpus was obtained from the course website. The data consist of blogs, news articles and Twitter data. From this data, [n-grams](https://en.wikipedia.org/wiki/N-gram) were constructed (*where n is 2, 3, 4 and 5*), to be used by the Shiny app algorithm.
+
+### The algorithm
+
+The algorithm that the app uses is a so-called "simple backoff method", which is implemented in the following way:
+
+Suppose the input sentence contains at least 4 words. First, the app checks if the **last 4 words** of the sentence are found as **the first 4 words** of one or more **5-grams**. If so, than the **5th word of the 5-gram** that appears most frequently is returned and the algorithm stops. If not, than the algorithm checks if the **last 3 words** of the sentence are found as the **first 3 words** of one or more **4-grams**. If so, than the **4th word of the 4-gram** that appears most frequently is returned and the algorithm stops.
+
+This process is repeated until a next word is found. If no word is found, the algorithm returns the word *the*.
+
+If the sentence contains less words than 4, the algorithm starts at a lower n-gram level. For example, with an imput of 2 words, the algorithm starts its search among the 3-grams.
